@@ -118,6 +118,22 @@ class TestHealth(TestRestful):
 
         self.assertEqual(self.api.get("/health").json, {"message": "OK"})
 
+        self.assertLogged(self.app.logger, "debug", "request", extra={
+            "request": {
+                "method": "GET",
+                "path": "/health",
+                "remote_addr": "127.0.0.1"
+            }
+        })
+
+        self.assertLogged(self.app.logger, "debug", "response", extra={
+            "response": {
+                "status_code": 200,
+                "json": {
+                    "message": "OK"
+                }
+            }
+        })
 
 class Group(klotio_flask_restful.Group):
     APP = "unittest.klot.io"
@@ -142,3 +158,23 @@ class TestGroup(TestRestful):
             unittest.mock.call().raise_for_status(),
             unittest.mock.call().json()
         ])
+
+        self.assertLogged(self.app.logger, "debug", "request", extra={
+            "request": {
+                "method": "GET",
+                "path": "/group",
+                "remote_addr": "127.0.0.1"
+            }
+        })
+
+        self.assertLogged(self.app.logger, "debug", "response", extra={
+            "response": {
+                "status_code": 200,
+                "json": {
+                    "group": [{
+                        "name": "unit",
+                        "url": "test"
+                    }]
+                }
+            }
+        })
