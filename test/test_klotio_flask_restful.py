@@ -11,19 +11,19 @@ import werkzeug.datastructures
 import flask
 import flask_restful
 
-import klotio_logger
+import klotio
 import klotio_flask_restful
 
 
 class TestRestful(klotio_unittest.TestCase):
 
     @classmethod
-    @unittest.mock.patch("klotio_logger.setup", klotio_unittest.MockLogger)
+    @unittest.mock.patch("klotio.logger", klotio_unittest.MockLogger)
     def setUpClass(cls):
 
         cls.app = flask.Flask("klot-io-flask-restful")
 
-        cls.app.logger = klotio_logger.setup(cls.app.name)
+        cls.app.logger = klotio.logger(cls.app.name)
 
         api = flask_restful.Api(cls.app)
 
