@@ -116,7 +116,7 @@ class TestHealth(TestRestful):
 
     def test_get(self):
 
-        self.assertEqual(self.api.get("/health").json, {"message": "OK"})
+        self.assertStatusValue(self.api.get("/health"), 200, "message", "OK")
 
         self.assertLogged(self.app.logger, "debug", "request", extra={
             "request": {
@@ -148,10 +148,10 @@ class TestGroup(TestRestful):
             "url": "test"
         }]
 
-        self.assertEqual(self.api.get("/group").json, {"group": [{
+        self.assertStatusValue(self.api.get("/group"), 200, "group", [{
             "name": "unit",
             "url": "test"
-        }]})
+        }])
 
         mock_get.assert_has_calls([
             unittest.mock.call("http://api.klot-io/app/unittest.klot.io/member"),
