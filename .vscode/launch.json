@@ -2,7 +2,7 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "flask_restful",
+            "name": "flask",
             "type": "python",
             "request": "attach",
             "port": 5678,
