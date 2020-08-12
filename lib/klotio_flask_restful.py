@@ -37,7 +37,7 @@ def response_extra(response):
             "json": response[0]
         }
 
-def require_logging(endpoint):
+def logger(endpoint):
 
     @functools.wraps(endpoint)
     def wrap(*args, **kwargs):
@@ -63,14 +63,14 @@ def require_logging(endpoint):
 
 class Health(flask_restful.Resource):
 
-    @require_logging
+    @logger
     def get(self):
         return {"message": "OK"}
 
 
 class Group(flask_restful.Resource):
 
-    @require_logging
+    @logger
     def get(self):
 
         response = requests.get(f"http://api.klot-io/app/{self.APP}/member")

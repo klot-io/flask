@@ -63,9 +63,9 @@ class TestRestful(klotio_unittest.TestCase):
         })
 
     @unittest.mock.patch("traceback.format_exc")
-    def test_require_logging(self, mock_traceback):
+    def test_logger(self, mock_traceback):
 
-        @klotio_flask_restful.require_logging
+        @klotio_flask_restful.logger
         def good():
             return {"message": "yep"}, 202
 
@@ -90,24 +90,24 @@ class TestRestful(klotio_unittest.TestCase):
             }
         })
 
-        @klotio_flask_restful.require_logging
+        @klotio_flask_restful.logger
         def bad():
             raise Exception("whoops")
 
-        mock_traceback.return_value = "adaisy"
+        mock_traceback.return_value = "logger"
 
         self.app.add_url_rule('/bad', 'bad', bad)
 
         response = self.api.get("/bad")
         self.assertStatusValue(response, 500, "message", "whoops")
-        self.assertStatusValue(response, 500, "traceback", "adaisy")
+        self.assertStatusValue(response, 500, "traceback", "logger")
 
         self.assertLogged(self.app.logger, "debug", "response", extra={
             "response": {
                 "status_code": 500,
                 "json": {
                     "message": "whoops",
-                    "traceback": "adaisy"
+                    "traceback": "logger"
                 }
             }
         })
