@@ -22,7 +22,6 @@ RUN apk add --no-cache --virtual .pip-deps  \
 	&& rm setup.py \
 	&& rm -rf build \
 	&& rm -rf dist \
-	&& rm -rf lib/klotio_python.egg-info \
-	&& rm -rf lib/klotio
+	&& rm -rf lib/klotio_python.egg-info
 
 CMD "/opt/service/bin/api.py"
