@@ -1,6 +1,6 @@
 ACCOUNT=klotio
 IMAGE=flask
-INSTALL=arm32v7/python:3.8.5-alpine3.12
+INSTALL=klotio/python:0.2
 VERSION?=0.2
 DEBUG_PORT=5678
 TTY=$(shell if tty -s; then echo "-it"; fi)
