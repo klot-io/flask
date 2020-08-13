@@ -30,7 +30,7 @@ push:
 	docker push $(ACCOUNT)/$(IMAGE):$(VERSION)
 
 setup:
-	docker run $(TTY) $(VOLUMES) $(INSTALL) sh -c "cp -r /opt/service /opt/install && cd /opt/install/ && python setup.py install && python -m klotio_flask_restful"
+	docker run $(TTY) $(VOLUMES) $(ENVIRONMENT) $(INSTALL) sh -c "cp -r /opt/service /opt/install && cd /opt/install/ && python setup.py install && python -m klotio_flask_restful"
 
 tag:
 	-git tag -a "v$(VERSION)" -m "Version $(VERSION)"
