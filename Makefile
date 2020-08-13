@@ -1,5 +1,6 @@
 ACCOUNT=klotio
 IMAGE=flask
+INSTALL=arm32v7/python:3.8.5-alpine3.12
 VERSION?=0.2
 DEBUG_PORT=5678
 TTY=$(shell if tty -s; then echo "-it"; fi)
@@ -29,7 +30,7 @@ push:
 	docker push $(ACCOUNT)/$(IMAGE):$(VERSION)
 
 setup:
-	docker run $(TTY) -v ${PWD}/setup.py:/opt/service/setup.py $(ACCOUNT)/$(IMAGE):$(VERSION) sh -c "cd /opt/service/ && python setup.py install"
+	docker run $(TTY) $(VOLUMES) $(INSTALL) sh -c "cp -r /opt/service /opt/install && cd /opt/install/ && python setup.py install && python -m klotio_flask_restful"
 
 tag:
 	-git tag -a "v$(VERSION)" -m "Version $(VERSION)"
