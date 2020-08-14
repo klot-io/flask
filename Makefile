@@ -9,7 +9,7 @@ VOLUMES=-v ${PWD}/lib:/opt/service/lib \
 		-v ${PWD}/setup.py:/opt/service/setup.py
 ENVIRONMENT=-e PYTHONDONTWRITEBYTECODE=1 \
 			-e PYTHONUNBUFFERED=1
-.PHONY: cross build shell debug test push setup tag untag
+.PHONY: cross build shell debug test push verify tag untag
 
 cross:
 	docker run --rm --privileged multiarch/qemu-user-static:register --reset
@@ -29,7 +29,7 @@ test:
 push:
 	docker push $(ACCOUNT)/$(IMAGE):$(VERSION)
 
-setup:
+verify:
 	docker run $(TTY) $(VOLUMES) $(ENVIRONMENT) $(INSTALL) sh -c "cp -r /opt/service /opt/install && cd /opt/install/ && python setup.py install && python -m klotio_flask_restful"
 
 tag:

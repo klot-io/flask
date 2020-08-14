@@ -2,22 +2,22 @@ pipeline {
     agent any
 
     stages {
-        stage('Build') {
+        stage('build') {
             steps {
                 sh 'make build'
             }
         }
-        stage('Test') {
+        stage('test') {
             steps {
                 sh 'make test'
             }
         }
-        stage('Setup') {
+        stage('verify') {
             steps {
-                sh 'make setup'
+                sh 'make verify'
             }
         }
-        stage('Push') {
+        stage('push') {
             when {
                 branch 'master'
             }
