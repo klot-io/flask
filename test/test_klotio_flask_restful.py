@@ -32,6 +32,10 @@ class TestRestful(klotio_unittest.TestCase):
 
         cls.api = cls.app.test_client()
 
+    def setUp(self):
+
+        self.app.logger.clear()
+
     def test_request_extra(self):
 
         request = unittest.mock.MagicMock()
