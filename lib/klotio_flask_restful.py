@@ -17,8 +17,8 @@ def request_extra(request):
     if hasattr(request, "args") and getattr(request, "args"):
         extra["args"] = getattr(request, "args").to_dict()
 
-    if hasattr(request, "json") and getattr(request, "json"):
-        extra["json"] = getattr(request, "json")
+    if request.get_json(force=True, silent=True):
+        extra["json"] = request.get_json(force=True)
 
     return extra
 

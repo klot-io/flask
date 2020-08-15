@@ -36,6 +36,8 @@ class TestRestful(klotio_unittest.TestCase):
 
         self.app.logger.clear()
 
+class TestFlask(TestRestful):
+
     def test_request_extra(self):
 
         request = unittest.mock.MagicMock()
@@ -44,7 +46,7 @@ class TestRestful(klotio_unittest.TestCase):
         request.path = "forward"
         request.remote_addr = "here"
         request.args = werkzeug.datastructures.ImmutableMultiDict([('a', '1')])
-        request.json = {"b": 2}
+        request.get_json.return_value = {"b": 2}
 
         self.assertEqual(klotio_flask_restful.request_extra(request), {
             "method": "madness",
@@ -74,6 +76,16 @@ class TestRestful(klotio_unittest.TestCase):
             return {"message": "yep"}, 202
 
         self.app.add_url_rule('/good', 'good', good)
+
+        self.assertStatusValue(self.api.get("/good"), 202, "message", "yep")
+
+        self.assertLogged(self.app.logger, "debug", "request", extra={
+            "request": {
+                "method": "GET",
+                "path": "/good",
+                "remote_addr": "127.0.0.1"
+            }
+        })
 
         self.assertStatusValue(self.api.get("/good?a=1", json={"b": 2}), 202, "message", "yep")
 
