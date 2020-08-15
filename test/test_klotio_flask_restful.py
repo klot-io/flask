@@ -106,6 +106,8 @@ class TestRestful(klotio_unittest.TestCase):
         self.assertStatusValue(response, 500, "message", "whoops")
         self.assertStatusValue(response, 500, "traceback", "logger")
 
+        self.assertLogged(self.app.logger, "exception", "request failed")
+
         self.assertLogged(self.app.logger, "debug", "response", extra={
             "response": {
                 "status_code": 500,

@@ -49,6 +49,8 @@ def logger(endpoint):
 
         except Exception as exception:
 
+            flask.current_app.logger.exception("request failed")
+
             response = {
                 "message": str(exception),
                 "traceback": traceback.format_exc()
