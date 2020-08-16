@@ -79,8 +79,8 @@ class Health(flask_restful.Resource):
     Class for Health checks
     """
 
-    @logger
     @staticmethod
+    @logger
     def get():
         """
         Just return ok
