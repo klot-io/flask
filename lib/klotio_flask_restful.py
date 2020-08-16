@@ -79,9 +79,8 @@ class Health(flask_restful.Resource):
     Class for Health checks
     """
 
-    @staticmethod
     @logger
-    def get():
+    def get(self): # pylint: disable=no-self-use
         """
         Just return ok
         """
