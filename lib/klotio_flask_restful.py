@@ -1,3 +1,7 @@
+"""
+Module for general klot-io functionality with flask and flask-restful
+"""
+
 import requests
 import functools
 import traceback
@@ -7,6 +11,9 @@ import flask_restful
 
 
 def request_extra(request):
+    """
+    Creates the extra logging info from a request
+    """
 
     extra = {
         "method": request.method,
@@ -23,21 +30,25 @@ def request_extra(request):
     return extra
 
 def response_extra(response):
-
-    extra = {}
+    """
+    Creates the extra logging info from a response
+    """
 
     if isinstance(response, dict):
         return {
             "status_code": 200,
             "json": response
         }
-    else:
-        return {
-            "status_code": response[1],
-            "json": response[0]
-        }
+
+    return {
+        "status_code": response[1],
+        "json": response[0]
+    }
 
 def logger(endpoint):
+    """
+    Decorator for adding logging to restful endpoint
+    """
 
     @functools.wraps(endpoint)
     def wrap(*args, **kwargs):
@@ -64,16 +75,31 @@ def logger(endpoint):
 
 
 class Health(flask_restful.Resource):
+    """
+    Class for Health checks
+    """
 
     @logger
-    def get(self):
+    def get(self): # pylint: disable=no-self-use
+        """
+        Just return ok
+        """
+
         return {"message": "OK"}
 
 
 class Group(flask_restful.Resource):
+    """
+    Class for finding other members of an App's Group
+    """
+
+    APP = None
 
     @logger
     def get(self):
+        """
+        Hit the Klot I/O API endpoint for this App
+        """
 
         response = requests.get(f"http://api.klot-io/app/{self.APP}/member")
 
